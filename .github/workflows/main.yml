@@ -35,9 +35,10 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
           cd /home/ubuntu/app
-          docker build -t my-node-app .
           docker stop my-node-app || true
           docker rm my-node-app || true
+          docker rmi my-node-app
+          docker build -t my-node-app .
           docker run -d -p 3000:3000 --name my-node-app my-node-app
           sudo systemctl reload nginx
           
